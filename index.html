@@ -66,33 +66,35 @@
   <div class="container">
     <h2>Abstract</h2>
     <p>
-      Robotic <strong>in-hand manipulation</strong> requires accurate <strong>object pose tracking</strong> despite frequent visual occlusions.
-      <strong>Vision-based tactile sensors (VBTSs)</strong> provide dense contact observations in such settings, but stable
-      <strong>rigid-body motion estimation</strong> from low-texture tactile images remains difficult for textureless or
-      symmetric objects, where reliable correspondences are scarce and small errors accumulate into drift.
+      Robotic in-hand manipulation requires accurate object pose tracking despite frequent visual occlusions.
+      Vision-based tactile sensors (VBTSs) provide dense contact observations in such settings, but stable
+      rigid-body motion estimation from tactile images remains difficult for textureless or symmetric objects,
+      where reliable correspondences are scarce and small errors accumulate into drift.
     </p>
     <br>
     <p>
       This paper presents <strong>TacSE3</strong>, a tactile-motion-estimation pipeline that maps low-texture
-      visuotactile measurements to a <strong>decoupled three-dimensional force field</strong> and estimates incremental
-      <strong>rigid-body motion on <em>SE</em>(3)</strong> through a <strong>least-squares rigid-body model</strong> with manifold-consistent
-      integration. Following dense-pattern VBTS processing, the method separates <strong>normal and tangential
-      responses</strong>, derives <strong>planar translation</strong> from the motion of the contact-region centroid on the sensor
-      plane, and estimates <strong>rotation</strong> primarily from the <strong>shear-related field</strong>, thereby avoiding ill-conditioned
-      coupling between uniform in-plane translation and angular motion in a single joint fit.
+      visuotactile measurements to a decoupled three-dimensional force field and estimates incremental rigid-body
+      motion on <em>SE</em>(3) through a least-squares rigid-body model with manifold-consistent integration.
+      Following dense-pattern VBTS processing, the method separates normal and tangential responses, derives
+      planar translation from the motion of the contact-region centroid on the sensor plane, and estimates
+      rotation primarily from the shear-related field, thereby avoiding ill-conditioned coupling between uniform
+      in-plane translation and angular motion in a single joint fit.
     </p>
     <br>
     <p>
-      Experiments on paired fingertip <strong>DM-Tac sensors</strong> show that <strong>dual-sensor sensing</strong> mitigates
-      <strong>translation&ndash;rotation ambiguity</strong>, controlled grasped-ball trials provide reliable <strong>rotation tracking</strong>
-      across axes and rotation magnitudes, and evaluations on multiple object geometries support
-      <strong>generalization beyond a single object class</strong>. Policy-level experiments further show that the estimated
-      rotation can serve as an effective <strong>post-processing signal</strong> for improving <strong>disturbance tolerance</strong>.
+      Experiments on paired fingertip DM-Tac sensors show that dual-sensor sensing mitigates
+      translation&ndash;rotation ambiguity, controlled grasped-ball trials provide reliable rotation tracking across
+      axes and rotation magnitudes, and evaluations on multiple object geometries support generalization beyond a
+      single object class. Policy-level experiments further show that the estimated rotation can serve as an
+      effective post-processing signal for improving disturbance tolerance. Overall, these results support TacSE3
+      as a practical geometric interface between low-texture visuotactile sensing and contact-rich in-gripper
+      manipulation.
     </p>
     <br>
     <p style="font-size:0.9rem; color:var(--muted);">
-      <strong>Keywords:</strong> Visuotactile sensing, tactile perception, in-gripper manipulation,
-      rigid-body motion estimation, tactile feedback.
+      <strong>Keywords:</strong> Visuotactile sensing, tactile motion estimation, in-gripper manipulation,
+      equivariant motion estimation, tactile feedback control.
     </p>
   </div>
 </section>
@@ -101,7 +103,7 @@
 <section id="method">
   <div class="container">
     <h2>Method Overview</h2>
-    <img src="assets/images/Overview (1).png" alt="TacSE3 Pipeline Overview" class="method-figure" />
+    <img src="assets/images/overview.png" alt="TacSE3 Pipeline Overview" class="method-figure" />
     <p class="caption">
       Figure 1: Overview of the proposed tactile-image-to-<em>SE</em>(3) estimation pipeline. Given a
       sequence of tactile observations, the method identifies the active contact region, decouples the
@@ -161,35 +163,35 @@
     <br>
     <div class="grid-2" style="margin-top:1.5rem;">
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转椭圆体.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_ellipsoid.mp4" type="video/mp4" /></video>
         <p class="label">Ellipsoidal Object</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转不规则.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_irregular.mp4" type="video/mp4" /></video>
         <p class="label">Irregular-Shaped Object</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转方块.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_wooden_cube.mp4" type="video/mp4" /></video>
         <p class="label">Wooden Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转红盒子.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_textured_cube.mp4" type="video/mp4" /></video>
         <p class="label">Textured Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转绿方块.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_plastic_cube.mp4" type="video/mp4" /></video>
         <p class="label">Plastic Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转螺丝刀.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_screwdriver.mp4" type="video/mp4" /></video>
         <p class="label">Screwdriver Handle</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转球体.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_sphere.mp4" type="video/mp4" /></video>
         <p class="label">Large Sphere</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转圆柱.mp4" type="video/mp4" /></video>
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_cylinder.mp4" type="video/mp4" /></video>
         <p class="label">Cylindrical Object</p>
       </div>
     </div>

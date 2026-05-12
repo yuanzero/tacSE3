@@ -159,23 +159,13 @@ h2 {
 /* ===== Grid layouts ===== */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
 
 @media (max-width: 700px) {
-  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 480px) {
-  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
 }
-
-/* ===== Tactile / Force Field ===== */
-.tactile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }
-.tactile-grid .cell { text-align: center; }
-.tactile-grid .cell img, .tactile-grid .cell video {
-  width: 100%; border-radius: 4px; border: 1px solid var(--border);
-}
-.cell-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
 
 /* ===== Video card ===== */
 .video-card { text-align: center; }
@@ -195,19 +185,6 @@ h2 {
 .split-row .panel { text-align: center; }
 .split-row .panel video { width: 100%; border-radius: 6px; border: 1px solid var(--border); }
 .split-row .panel h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
-
-/* ===== Downstream tasks ===== */
-.task-block { margin-bottom: 2.5rem; }
-.task-block h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
-.task-videos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
-@media (max-width: 700px) { .task-videos { grid-template-columns: 1fr 1fr; } }
-
-/* ===== Object generalization ===== */
-.obj-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
-@media (max-width: 700px) { .obj-grid { grid-template-columns: repeat(3, 1fr); } }
-.obj-card { text-align: center; }
-.obj-card img { width: 100%; border-radius: 6px; border: 1px solid var(--border); aspect-ratio: 1; object-fit: cover; }
-.obj-card .label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
 
 /* ===== BibTeX ===== */
 .bibtex-block {
@@ -243,32 +220,6 @@ footer {
 }
 footer a { color: var(--accent); text-decoration: none; }
 
-/* ===== Result tables ===== */
-.result-table {
-  width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 0.5rem;
-}
-.result-table caption {
-  font-size: 0.82rem; color: var(--muted); margin-bottom: 0.5rem; text-align: left;
-}
-.result-table th, .result-table td {
-  border: 1px solid var(--border); padding: 0.45rem 0.75rem; text-align: center;
-}
-.result-table thead { background: #f5f5f5; font-weight: 600; }
-.result-table tbody tr:hover { background: #fafafa; }
-
-/* ===== Video placeholder ===== */
-.video-placeholder {
-  background: #f5f5f5;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 2.5rem 1rem;
-  text-align: center;
-  color: #888;
-  font-size: 1rem;
-}
-.video-placeholder .hint { font-size: 0.8rem; margin-top: 0.4rem; color: #aaa; }
-.video-placeholder code { font-size: 0.78rem; background: #e8e8e8; padding: 0.1rem 0.3rem; border-radius: 3px; }
-
 /* ===== Downstream task grid ===== */
 .task-grid { display: flex; flex-direction: column; gap: 3rem; }
 .task-row h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
@@ -279,15 +230,3 @@ footer a { color: var(--accent); text-decoration: none; }
 }
 .panel-label.fail { background: #fee2e2; color: #b91c1c; }
 .panel-label.success { background: #dcfce7; color: #15803d; }
-.split-row .panel { text-align: center; }
-.split-row .panel video { width: 100%; border-radius: 6px; border: 1px solid var(--border); }
-
-/* ===== Placeholder images ===== */
-.placeholder {
-  background: #f0f0f0;
-  border: 2px dashed #ccc;
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  color: #999; font-size: 0.8rem;
-  min-height: 120px;
-}
