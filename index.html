@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TacSE3: Equivariant SE(3) Motion Estimation from Visuotactile Images</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#rotation">Rotation Est.</a></li>
+    <li><a href="#generalization">Generalization</a></li>
+    <li><a href="#downstream">Downstream</a></li>
+    <li><a href="#motivation">Motivation</a></li>
+    <li><a href="#bibtex">BibTeX</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <div class="venue-badge">Under Review 2026</div>
+    <h1 class="paper-title">
+      TacSE3: Equivariant SE(3) Motion Estimation from Low-Texture<br>
+      Visuotactile Images for In-Gripper Tracking and Compensation
+    </h1>
+    <p class="authors">
+      Zhongyuan Liao<sup>1</sup>,&nbsp;
+      Junzhe Wang<sup>2</sup>,&nbsp;
+      Qingyang Liu<sup>2</sup>,&nbsp;
+      Zhenmin Huang<sup>1</sup>,&nbsp;
+      Jun Ma<sup>2</sup>,&nbsp;
+      Yi Cai<sup>2</sup>,&nbsp;
+      Fei Meng<sup>1*</sup>,&nbsp;
+      Haobo Liang<sup>1*</sup>,&nbsp;
+      Michael Yu Wang<sup>3*</sup>
+    </p>
+    <p class="affiliations">
+      <sup>1</sup>Hong Kong Center for Construction Robotics, HKUST &nbsp;&nbsp;
+      <sup>2</sup>HKUST (Guangzhou) &nbsp;&nbsp;
+      <sup>3</sup>Great Bay University
+    </p>
+    <p class="affiliations" style="font-size:0.78rem; margin-top:0.25rem;">
+      *Corresponding authors
+    </p>
+    <div class="btn-row">
+      <a class="btn" href="assets/videos/demo.mp4" target="_blank">&#127916; Video</a>
+      <a class="btn" href="https://github.com/Junzhe/tacse3" target="_blank">&#128187; Code(coming soon)</a>
+      <a class="btn" href="#" target="_blank">&#128203; arXiv (coming soon)</a>
+    </div>
+    <div class="teaser-video">
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/demo.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section id="abstract">
+  <div class="container">
+    <h2>Abstract</h2>
+    <p>
+      Robotic <strong>in-hand manipulation</strong> requires accurate <strong>object pose tracking</strong> despite frequent visual occlusions.
+      <strong>Vision-based tactile sensors (VBTSs)</strong> provide dense contact observations in such settings, but stable
+      <strong>rigid-body motion estimation</strong> from low-texture tactile images remains difficult for textureless or
+      symmetric objects, where reliable correspondences are scarce and small errors accumulate into drift.
+    </p>
+    <br>
+    <p>
+      This paper presents <strong>TacSE3</strong>, a tactile-motion-estimation pipeline that maps low-texture
+      visuotactile measurements to a <strong>decoupled three-dimensional force field</strong> and estimates incremental
+      <strong>rigid-body motion on <em>SE</em>(3)</strong> through a <strong>least-squares rigid-body model</strong> with manifold-consistent
+      integration. Following dense-pattern VBTS processing, the method separates <strong>normal and tangential
+      responses</strong>, derives <strong>planar translation</strong> from the motion of the contact-region centroid on the sensor
+      plane, and estimates <strong>rotation</strong> primarily from the <strong>shear-related field</strong>, thereby avoiding ill-conditioned
+      coupling between uniform in-plane translation and angular motion in a single joint fit.
+    </p>
+    <br>
+    <p>
+      Experiments on paired fingertip <strong>DM-Tac sensors</strong> show that <strong>dual-sensor sensing</strong> mitigates
+      <strong>translation&ndash;rotation ambiguity</strong>, controlled grasped-ball trials provide reliable <strong>rotation tracking</strong>
+      across axes and rotation magnitudes, and evaluations on multiple object geometries support
+      <strong>generalization beyond a single object class</strong>. Policy-level experiments further show that the estimated
+      rotation can serve as an effective <strong>post-processing signal</strong> for improving <strong>disturbance tolerance</strong>.
+    </p>
+    <br>
+    <p style="font-size:0.9rem; color:var(--muted);">
+      <strong>Keywords:</strong> Visuotactile sensing, tactile perception, in-gripper manipulation,
+      rigid-body motion estimation, tactile feedback.
+    </p>
+  </div>
+</section>
+
+<!-- Method -->
+<section id="method">
+  <div class="container">
+    <h2>Method Overview</h2>
+    <img src="assets/images/Overview (1).png" alt="TacSE3 Pipeline Overview" class="method-figure" />
+    <p class="caption">
+      Figure 1: Overview of the proposed tactile-image-to-<em>SE</em>(3) estimation pipeline. Given a
+      sequence of tactile observations, the method identifies the active contact region, decouples the
+      tactile response into a 3D force field, fits a rigid-body model in <em>SE</em>(3), and integrates
+      the estimated twist for online compensation.
+    </p>
+    <br>
+    <p>
+      TacSE3 treats the tactile image as a geometric measurement of contact rather than a conventional
+      textured image. The pipeline follows three principles: <strong>contact-first sensing</strong>,
+      <strong>force-field decoupling</strong>, and <strong>rigid-body consistency</strong>. Planar
+      translation is derived from the contact-mask centroid, while rotation is estimated from the
+      shear-related field — avoiding ill-conditioned coupling in a single joint fit. The tactile
+      response is decoupled into <strong>tangential (shear)</strong> and <strong>normal</strong> components via
+      <strong>Helmholtz&ndash;Hodge decomposition</strong>, forming a <strong>dense 3D force field</strong> used for rigid-body estimation.
+    </p>
+  </div>
+</section>
+
+<!-- Rotation Estimation -->
+<section id="rotation">
+  <div class="container">
+    <h2>Rotation Estimation Results</h2>
+    <p style="margin-bottom:1.5rem; color:var(--muted);">
+      A rigid ball is grasped and commanded rotations are applied around axes
+      <strong>r<sub>x</sub></strong>, <strong>r<sub>y</sub></strong>, <strong>r<sub>z</sub></strong>. The visualization interface shows
+      tracked <strong>6D pose data</strong> together with tactile image data from the visuotactile sensors.
+    </p>
+    <div class="grid-3" style="max-width:900px; margin:0 auto;">
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationX.mp4" type="video/mp4" /></video>
+        <p class="label">Rotation around r<sub>x</sub></p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationY.mp4" type="video/mp4" /></video>
+        <p class="label">Rotation around r<sub>y</sub></p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationZ.mp4" type="video/mp4" /></video>
+        <p class="label">Rotation around r<sub>z</sub></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Object Generalization -->
+<section id="generalization">
+  <div class="container">
+    <h2>Cross-Object Generalization</h2>
+    <p style="margin-bottom:1.5rem; color:var(--muted);">
+      TacSE3 is evaluated on <strong>8 objects</strong> varying in geometry and surface texture, including smooth
+      <strong>textureless objects</strong> (sphere, ellipsoid, cylinder) and objects with surface structure
+      (textured cube, screwdriver handle).
+    </p>
+    <img src="assets/images/diffobj.png" alt="Objects used in multi-object evaluation" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
+    <p class="caption">Figure 2: Objects used in the multi-object evaluation.</p>
+    <br>
+    <div class="grid-2" style="margin-top:1.5rem;">
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转椭圆体.mp4" type="video/mp4" /></video>
+        <p class="label">Ellipsoidal Object</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转不规则.mp4" type="video/mp4" /></video>
+        <p class="label">Irregular-Shaped Object</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转方块.mp4" type="video/mp4" /></video>
+        <p class="label">Wooden Cube</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转红盒子.mp4" type="video/mp4" /></video>
+        <p class="label">Textured Cube</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转绿方块.mp4" type="video/mp4" /></video>
+        <p class="label">Plastic Cube</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转螺丝刀.mp4" type="video/mp4" /></video>
+        <p class="label">Screwdriver Handle</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转球体.mp4" type="video/mp4" /></video>
+        <p class="label">Large Sphere</p>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/旋转圆柱.mp4" type="video/mp4" /></video>
+        <p class="label">Cylindrical Object</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Downstream Manipulation -->
+<section id="downstream">
+  <div class="container">
+    <h2>Downstream Manipulation Tasks</h2>
+    <p style="margin-bottom:1.5rem; color:var(--muted);">
+      The estimated rotation is used as a <strong>post-processing signal</strong> on top of an <strong>ACT base policy</strong>.
+      Three tasks are evaluated under <strong>human disturbance</strong>: Drawing, Gear Insertion, and Peg-in-Hole.
+    </p>
+    <img src="assets/images/setup.png" alt="Experimental Setup" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
+    <p class="caption">Figure 4: Experimental setup — UR5 robot arm with two DM-Tac visuotactile sensors.</p>
+    <br>
+    <div class="task-grid">
+      <div class="task-row">
+        <h3>Drawing</h3>
+        <div class="split-row">
+          <div class="panel">
+            <p class="panel-label fail">Without TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/drawing_demo_fail.mp4" type="video/mp4" /></video>
+          </div>
+          <div class="panel">
+            <p class="panel-label success">With TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/drawing_demo_successful.mp4" type="video/mp4" /></video>
+          </div>
+        </div>
+      </div>
+      <div class="task-row">
+        <h3>Gear Insertion</h3>
+        <div class="split-row">
+          <div class="panel">
+            <p class="panel-label fail">Without TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/gear_demo_fail.mp4" type="video/mp4" /></video>
+          </div>
+          <div class="panel">
+            <p class="panel-label success">With TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/gear_demo_successful.mp4" type="video/mp4" /></video>
+          </div>
+        </div>
+      </div>
+      <div class="task-row">
+        <h3>Peg-in-Hole</h3>
+        <div class="split-row">
+          <div class="panel">
+            <p class="panel-label fail">Without TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/peg_demo_fail.mp4" type="video/mp4" /></video>
+          </div>
+          <div class="panel">
+            <p class="panel-label success">With TacSE3</p>
+            <video autoplay muted loop playsinline><source src="assets/videos/peg_demo_successful.mp4" type="video/mp4" /></video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Motivation -->
+<section id="motivation">
+  <div class="container">
+    <h2>Motivation</h2>
+    <p style="margin-bottom:1.5rem; color:var(--muted);">
+      Even when an object is initially grasped securely, small <strong>translations</strong>, <strong>rolling motions</strong>, or
+      <strong>local rotations</strong> relative to the gripper can accumulate into alignment errors and task failure.
+      <strong>TacSE3</strong> detects and compensates for <strong>in-gripper object drift</strong> in real time using only tactile sensing.
+    </p>
+    <p>
+      The challenge is especially severe for <strong>low-texture objects</strong> (polished spheres, smooth cylinders)
+      where vision-based tracking fails and traditional tactile methods relying on image correspondences
+      break down. TacSE3 addresses this by treating the tactile stream as a <strong>geometric measurement of
+      contact force</strong> rather than a textured image, enabling robust <strong><em>SE</em>(3) estimation</strong> even under
+      textureless contact conditions.
+    </p>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section id="bibtex">
+  <div class="container">
+    <h2>BibTeX</h2>
+    <div class="bibtex-block">
+      <button class="copy-btn">Copy</button>
+      <pre>@article{tacse3_2026,
+  title   = {TacSE3: Equivariant SE(3) Motion Estimation from Low-Texture
+             Visuotactile Images for In-Gripper Tracking and Compensation},
+  author  = {Liao, Zhongyuan and Wang, Junzhe and Liu, Qingyang and
+             Huang, Zhenmin and Ma, Jun and Cai, Yi and
+             Meng, Fei and Liang, Haobo and Wang, Michael Yu},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>
+    Website template inspired by
+    <a href="https://iakinola23.github.io/tacsl/" target="_blank">TacSL</a> and
+    <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
+  </p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
