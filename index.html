@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TacSE3: Equivariant SE(3) Motion Estimation from Visuotactile Images</title>
+  <title>TacSE3 | Constrained SE(3) Motion Estimation | IEEE T-ASE 2026</title>
+  <meta name="description" content="TacSE3: constrained motion estimation from low-texture visuotactile images. IEEE T-ASE paper, public code, tactile demos and documentation." />
+  <meta name="theme-color" content="#102d38" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <!-- Navigation -->
-<nav>
+<a class="skip-link" href="#abstract">Skip to content</a>
+<nav aria-label="Main navigation">
+  <a class="brand" href="#hero">TacSE3<span> / 2026</span></a>
   <ul>
-    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#paper">Paper</a></li>
+    <li><a href="#code">Code</a></li>
+    <li><a href="#abstract">Overview</a></li>
     <li><a href="#method">Method</a></li>
     <li><a href="#rotation">Rotation Est.</a></li>
     <li><a href="#generalization">Generalization</a></li>
     <li><a href="#downstream">Downstream</a></li>
-    <li><a href="#motivation">Motivation</a></li>
     <li><a href="#bibtex">BibTeX</a></li>
   </ul>
 </nav>
@@ -24,9 +29,10 @@
 <!-- Hero -->
 <section id="hero">
   <div class="container">
-    <div class="venue-badge">Under Review 2026</div>
+    <div class="venue-badge">IEEE T-ASE 2026 <span>·</span> Early Access</div>
+    <p class="hero-kicker">TACTILE SENSING / IN-GRIPPER MOTION</p>
     <h1 class="paper-title">
-      TacSE3: Equivariant SE(3) Motion Estimation from Low-Texture<br>
+      TacSE3: Constrained SE(3) Motion Estimation from Low-Texture
       Visuotactile Images for In-Gripper Tracking and Compensation
     </h1>
     <p class="authors">
@@ -48,54 +54,76 @@
     <p class="affiliations" style="font-size:0.78rem; margin-top:0.25rem;">
       *Corresponding authors
     </p>
+    <p class="hero-summary">From local contact deformation to short-horizon motion feedback.</p>
     <div class="btn-row">
-      <a class="btn" href="assets/videos/demo.mp4" target="_blank">&#127916; Video</a>
-      <a class="btn" href="https://github.com/Junzhe/tacse3" target="_blank">&#128187; Code(coming soon)</a>
-      <a class="btn" href="https://arxiv.org/abs/2605.17929" target="_blank">&#128203; arXiv</a>
+      <a class="btn primary" href="assets/papers/TacSE3-TASE-2026.pdf" target="_blank" rel="noopener">Paper PDF <span aria-hidden="true">↗</span></a>
+      <a class="btn" href="https://github.com/yuanzero/tacSE3_code" target="_blank" rel="noopener">Public code <span aria-hidden="true">↗</span></a>
+      <a class="btn" href="#code">Get started</a>
+      <a class="btn" href="assets/videos/demo.mp4" target="_blank" rel="noopener">Watch video <span aria-hidden="true">↗</span></a>
     </div>
     <div class="teaser-video">
-      <video autoplay muted loop playsinline>
+      <video controls muted loop playsinline preload="none">
         <source src="assets/videos/demo.mp4" type="video/mp4" />
       </video>
     </div>
   </div>
 </section>
 
+<!-- Paper -->
+<section id="paper">
+  <div class="container resource-layout">
+    <div>
+      <p class="eyebrow">01 / PUBLICATION</p>
+      <h2>Read the paper</h2>
+      <p>IEEE Transactions on Automation Science and Engineering</p>
+      <p class="resource-meta">Early Access · 18 November 2026 · 12 pages</p>
+      <p class="resource-note">The PDF is the IEEE accepted author version. It has not yet been fully edited for final publication.</p>
+    </div>
+    <div class="resource-links">
+      <a class="resource-link" href="assets/papers/TacSE3-TASE-2026.pdf" target="_blank" rel="noopener"><span><strong>Read full paper</strong><small>PDF · 24.7 MB · IEEE Early Access</small></span><span aria-hidden="true">↗</span></a>
+      <a class="resource-link" href="assets/papers/TacSE3-TASE-2026.pdf" download><span><strong>Download PDF</strong><small>Save a local copy</small></span><span aria-hidden="true">↓</span></a>
+      <a class="resource-link" href="https://doi.org/10.1109/TASE.2026.3754711" target="_blank" rel="noopener"><span><strong>IEEE Xplore</strong><small>10.1109/TASE.2026.3754711</small></span><span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="https://arxiv.org/abs/2605.17929" target="_blank" rel="noopener">Earlier arXiv preprint</a>
+    </div>
+  </div>
+</section>
+
+<!-- Code -->
+<section id="code">
+  <div class="container">
+    <p class="eyebrow">02 / IMPLEMENTATION</p>
+    <h2>Code and tactile demo</h2>
+    <p class="section-intro">Explore tactile images, depth, shear response and per-sensor 3D feedback. The public implementation is maintained in <a href="https://github.com/yuanzero/tacSE3_code">yuanzero/tacSE3_code</a>.</p>
+    <div class="code-layout">
+      <div class="quickstart">
+        <div class="code-header"><span>Quick start</span><button class="copy-btn" data-copy="quickstart-code" type="button">Copy</button></div>
+        <pre id="quickstart-code"><code>git clone https://github.com/yuanzero/tacSE3_code.git
+cd tacSE3_code
+python -m pip install -e ".[viz]"
+python -m tacse3.ball_demo \
+  --sensor-serial SERIAL1 SERIAL2 --pose3d on</code></pre>
+        <p>Python 3.10+ · Install the vendor <code>dmrobotics</code> SDK separately. Replace the serial placeholders with your devices.</p>
+      </div>
+      <div class="doc-links">
+        <a href="https://github.com/yuanzero/tacSE3_code/blob/main/docs/ball-demo.md"><strong>Live demo and 3D</strong><span>Display controls, recording and snapshots ↗</span></a>
+        <a href="https://github.com/yuanzero/tacSE3_code/blob/main/docs/legacy-usage.md"><strong>Capture and replay</strong><span>Offline workflow and monitor interfaces ↗</span></a>
+        <a href="https://github.com/yuanzero/tacSE3_code/blob/main/docs/architecture.md"><strong>Project architecture</strong><span>Modules and data flow ↗</span></a>
+        <a href="https://github.com/yuanzero/tacSE3_code/blob/main/README.zh-CN.md"><strong>中文使用说明</strong><span>安装、启动与交互说明 ↗</span></a>
+      </div>
+    </div>
+    <p class="resource-note">The standalone demo displays local relative responses per sensor, rather than an absolute or accumulated object pose. See the <a href="https://github.com/yuanzero/tacSE3_code/blob/main/UNIT_CALIBRATION.md">unit conventions</a> for interpretation.</p>
+    <p class="key-guide"><kbd>Z</kbd> Zero display <kbd>R</kbd> Raw / smooth <kbd>S</kbd> Snapshot <kbd>Q</kbd> Quit <span>Focus the 2D dashboard for controls.</span></p>
+  </div>
+</section>
+
 <!-- Abstract -->
 <section id="abstract">
   <div class="container">
-    <h2>Abstract</h2>
-    <p>
-      Robotic in-hand manipulation requires accurate object pose tracking despite frequent visual occlusions.
-      Vision-based tactile sensors (VBTSs) provide dense contact observations in such settings, but stable
-      rigid-body motion estimation from tactile images remains difficult for textureless or symmetric objects,
-      where reliable correspondences are scarce and small errors accumulate into drift.
-    </p>
-    <br>
-    <p>
-      This paper presents <strong>TacSE3</strong>, a tactile-motion-estimation pipeline that maps low-texture
-      visuotactile measurements to a decoupled three-dimensional force field and estimates incremental rigid-body
-      motion on <em>SE</em>(3) through a least-squares rigid-body model with manifold-consistent integration.
-      Following dense-pattern VBTS processing, the method separates normal and tangential responses, derives
-      planar translation from the motion of the contact-region centroid on the sensor plane, and estimates
-      rotation primarily from the shear-related field, thereby avoiding ill-conditioned coupling between uniform
-      in-plane translation and angular motion in a single joint fit.
-    </p>
-    <br>
-    <p>
-      Experiments on paired fingertip DM-Tac sensors show that dual-sensor sensing mitigates
-      translation&ndash;rotation ambiguity, controlled grasped-ball trials provide reliable rotation tracking across
-      axes and rotation magnitudes, and evaluations on multiple object geometries support generalization beyond a
-      single object class. Policy-level experiments further show that the estimated rotation can serve as an
-      effective post-processing signal for improving disturbance tolerance. Overall, these results support TacSE3
-      as a practical geometric interface between low-texture visuotactile sensing and contact-rich in-gripper
-      manipulation.
-    </p>
-    <br>
-    <p style="font-size:0.9rem; color:var(--muted);">
-      <strong>Keywords:</strong> Visuotactile sensing, tactile motion estimation, in-gripper manipulation,
-      equivariant motion estimation, tactile feedback control.
-    </p>
+    <p class="eyebrow">03 / RESEARCH OVERVIEW</p>
+    <h2>Motion feedback from touch</h2>
+    <p>When an object is held inside a gripper, occlusion and a lack of surface texture can make visual motion tracking unreliable. TacSE3 uses the deformation measured by two opposing visuotactile fingertips to recover short-horizon contact motion.</p>
+    <p>The method builds a calibrated 3D surface-deformation field. Contact-centroid motion supplies planar translation, while spatial variations in tangential deformation support a rigid-body rotation fit. The two sensor estimates are expressed in the end-effector frame and fused. Normal deformation contributes to contact geometry; independent object translation along the normal is constrained by the opposing fingers.</p>
+    <p>The paper evaluates motion estimation, translation–rotation coupling, changes in robot pose and contact location, different object geometries, and execution-time compensation with a frozen policy.</p>
   </div>
 </section>
 
@@ -103,18 +131,18 @@
 <section id="method">
   <div class="container">
     <h2>Method Overview</h2>
-    <img src="assets/images/overview.png" alt="TacSE3 Pipeline Overview" class="method-figure" />
+    <img loading="lazy" src="assets/images/overview.png" width="1998" height="1125" alt="TacSE3 Pipeline Overview" class="method-figure" />
     <p class="caption">
       Figure 1: Overview of the proposed tactile-image-to-<em>SE</em>(3) estimation pipeline. Given a
-      sequence of tactile observations, the method identifies the active contact region, decouples the
-      tactile response into a 3D force field, fits a rigid-body model in <em>SE</em>(3), and integrates
+      sequence of tactile observations, the method identifies the active contact region, maps the
+      tactile response to a calibrated 3D deformation field, fits a rigid-body model in <em>SE</em>(3), and integrates
       the estimated twist for online compensation.
     </p>
     <br>
     <p>
       TacSE3 treats the tactile image as a geometric measurement of contact rather than a conventional
       textured image. The pipeline follows three principles: <strong>contact-first sensing</strong>,
-      <strong>force-field decoupling</strong>, and <strong>rigid-body consistency</strong>. Planar
+      <strong>deformation-field decomposition</strong>, and <strong>rigid-body consistency</strong>. Planar
       translation is derived from the contact-mask centroid, while rotation is estimated from the
       shear-related field — avoiding ill-conditioned coupling in a single joint fit. 
     </p>
@@ -132,15 +160,15 @@
     </p>
     <div class="grid-3" style="max-width:900px; margin:0 auto;">
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationX.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/rotation_demo/rotationX.mp4" type="video/mp4" /></video>
         <p class="label">Rotation around r<sub>x</sub></p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationY.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/rotation_demo/rotationY.mp4" type="video/mp4" /></video>
         <p class="label">Rotation around r<sub>y</sub></p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/rotation_demo/rotationZ.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/rotation_demo/rotationZ.mp4" type="video/mp4" /></video>
         <p class="label">Rotation around r<sub>z</sub></p>
       </div>
     </div>
@@ -156,40 +184,40 @@
       <strong>textureless objects</strong> (sphere, ellipsoid, cylinder) and objects with surface structure
       (textured cube, screwdriver handle).
     </p>
-    <img src="assets/images/diffobj.png" alt="Objects used in multi-object evaluation" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
+    <img loading="lazy" src="assets/images/diffobj.png" width="1500" height="865" alt="Objects used in multi-object evaluation" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
     <p class="caption">Figure 2: Objects used in the multi-object evaluation.</p>
     <br>
     <div class="grid-2" style="margin-top:1.5rem;">
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_ellipsoid.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_ellipsoid.mp4" type="video/mp4" /></video>
         <p class="label">Ellipsoidal Object</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_irregular.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_irregular.mp4" type="video/mp4" /></video>
         <p class="label">Irregular-Shaped Object</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_wooden_cube.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_wooden_cube.mp4" type="video/mp4" /></video>
         <p class="label">Wooden Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_textured_cube.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_textured_cube.mp4" type="video/mp4" /></video>
         <p class="label">Textured Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_plastic_cube.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_plastic_cube.mp4" type="video/mp4" /></video>
         <p class="label">Plastic Cube</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_screwdriver.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_screwdriver.mp4" type="video/mp4" /></video>
         <p class="label">Screwdriver Handle</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_sphere.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_sphere.mp4" type="video/mp4" /></video>
         <p class="label">Large Sphere</p>
       </div>
       <div class="video-card">
-        <video autoplay muted loop playsinline><source src="assets/videos/generalization_demo/rotation_cylinder.mp4" type="video/mp4" /></video>
+        <video controls muted loop playsinline preload="none"><source src="assets/videos/generalization_demo/rotation_cylinder.mp4" type="video/mp4" /></video>
         <p class="label">Cylindrical Object</p>
       </div>
     </div>
@@ -204,7 +232,7 @@
       The estimated rotation is used as a <strong>post-processing signal</strong> on top of an <strong>ACT base policy</strong>.
       Three tasks are evaluated under <strong>human disturbance</strong>: Drawing, Gear Insertion, and Peg-in-Hole.
     </p>
-    <img src="assets/images/setup.png" alt="Experimental Setup" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
+    <img loading="lazy" src="assets/images/setup.png" width="1610" height="711" alt="Experimental Setup" class="method-figure" style="max-width:560px; display:block; margin:0 auto 1rem;" />
     <p class="caption">Figure 4: Experimental setup — UR5 robot arm with two DM-Tac visuotactile sensors.</p>
     <br>
     <div class="task-grid">
@@ -213,11 +241,11 @@
         <div class="split-row">
           <div class="panel">
             <p class="panel-label fail">Without TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/drawing_demo_fail.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/drawing_demo_fail.mp4" type="video/mp4" /></video>
           </div>
           <div class="panel">
             <p class="panel-label success">With TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/drawing_demo_successful.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/drawing_demo_successful.mp4" type="video/mp4" /></video>
           </div>
         </div>
       </div>
@@ -226,11 +254,11 @@
         <div class="split-row">
           <div class="panel">
             <p class="panel-label fail">Without TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/gear_demo_fail.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/gear_demo_fail.mp4" type="video/mp4" /></video>
           </div>
           <div class="panel">
             <p class="panel-label success">With TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/gear_demo_successful.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/gear_demo_successful.mp4" type="video/mp4" /></video>
           </div>
         </div>
       </div>
@@ -239,11 +267,11 @@
         <div class="split-row">
           <div class="panel">
             <p class="panel-label fail">Without TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/peg_demo_fail.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/peg_demo_fail.mp4" type="video/mp4" /></video>
           </div>
           <div class="panel">
             <p class="panel-label success">With TacSE3</p>
-            <video autoplay muted loop playsinline><source src="assets/videos/peg_demo_successful.mp4" type="video/mp4" /></video>
+            <video controls muted loop playsinline preload="none"><source src="assets/videos/peg_demo_successful.mp4" type="video/mp4" /></video>
           </div>
         </div>
       </div>
@@ -264,7 +292,7 @@
       The challenge is especially severe for <strong>low-texture objects</strong> (polished spheres, smooth cylinders)
       where vision-based tracking fails and traditional tactile methods relying on image correspondences
       break down. TacSE3 addresses this by treating the tactile stream as a <strong>geometric measurement of
-      contact force</strong> rather than a textured image, enabling robust <strong><em>SE</em>(3) estimation</strong> even under
+      surface deformation</strong> rather than a textured image, enabling <strong>constrained <em>SE</em>(3) motion estimation</strong> under
       textureless contact conditions.
     </p>
   </div>
@@ -273,17 +301,21 @@
 <!-- BibTeX -->
 <section id="bibtex">
   <div class="container">
-    <h2>BibTeX</h2>
+    <p class="eyebrow">CITATION</p>
+    <h2>Cite this work</h2>
     <div class="bibtex-block">
-      <button class="copy-btn">Copy</button>
-      <pre>@article{tacse3_2026,
-  title   = {TacSE3: Equivariant SE(3) Motion Estimation from Low-Texture
+      <button class="copy-btn" data-copy="citation-code" type="button">Copy</button>
+      <pre id="citation-code">@article{tacse3_2026,
+  title   = {TacSE3: Constrained SE(3) Motion Estimation from Low-Texture
              Visuotactile Images for In-Gripper Tracking and Compensation},
   author  = {Liao, Zhongyuan and Wang, Junzhe and Liu, Qingyang and
              Huang, Zhenmin and Ma, Jun and Cai, Yi and
              Meng, Fei and Liang, Haobo and Wang, Michael Yu},
-  journal = {arXiv preprint},
-  year    = {2026}
+  journal = {IEEE Transactions on Automation Science and Engineering},
+  year    = {2026},
+  note    = {Early Access},
+  doi     = {10.1109/TASE.2026.3754711},
+  url     = {https://doi.org/10.1109/TASE.2026.3754711}
 }</pre>
     </div>
   </div>
@@ -291,13 +323,15 @@
 
 <!-- Footer -->
 <footer>
+  <p><a href="https://github.com/yuanzero/tacSE3_code">Code</a> · <a href="assets/papers/TacSE3-TASE-2026.pdf">Paper PDF</a> · <a href="https://github.com/yuanzero/tacSE3">Project repository</a></p>
   <p>
     Website template inspired by
-    <a href="https://iakinola23.github.io/tacsl/" target="_blank">TacSL</a> and
-    <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
+    <a href="https://iakinola23.github.io/tacsl/" target="_blank" rel="noopener">TacSL</a> and
+    <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>.
   </p>
 </footer>
 
+<p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
 <script src="script.js"></script>
 </body>
 </html>
